@@ -36,7 +36,7 @@ def uploader():
                 if str(file.filename).split(".")[-1]=="zip":
                     with ZipFile(io.BytesIO(file.read()), 'r') as zip:
                         foldername = str(file.filename).replace(".zip","")
-                        foldernamewithpath = BASE_DIR+'/geospatial_map_view/tmp/' +str(file.filename).replace(".zip","")
+                        foldernamewithpath = '/app/geospatial_map_viewer/tmp/' +str(file.filename).replace(".zip","")
                         zip.extractall(foldernamewithpath)
 
                         imagelist = list()
@@ -70,7 +70,7 @@ def imageProvider(foldername,foldernamewithpath,imagelist):
                 df = gpd.read_file(foldernamewithpath+"/"+file)
                 ax = df.plot()
                 imagePath1 = foldername + ".png"
-                imagePath = BASE_DIR+"/geospatial_map_view/static/media/"+imagePath1
+                imagePath = "/app/geospatial_map_viewer/static/media/"+imagePath1
                 plt.savefig(imagePath, dpi=300, bbox_inches='tight')
                 imagelist.append({"image":imagePath1,"columns":df.columns.to_list()})
 
