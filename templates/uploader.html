@@ -1,0 +1,22 @@
+{% include "header.html" %}
+<h2>Upload File</h2>
+<form name="form" action = "/uploads" method = "POST" enctype = "multipart/form-data">
+   <input type = "file" name = "file" accept=".zip" />
+   <p> Only zip file accepted </p> 
+   <input type = "submit"/>
+</form>
+{% if mainDict['message'] %}
+
+   {% if mainDict['message']=="File successfully uploaded" %}
+      <h1 style="color:greenyellow;">{{mainDict['message']}}</h1>
+      <form action="/imageViewer" method="post">
+         {% for item in mainDict['filename'] %}
+             <input type="hidden" name="item[]" value="{{ item }}">
+         {% endfor %}
+         <input type="submit" value="Submit">
+     </form>
+   {% else %}
+      <h1 style="color:Tomato;">{{mainDict['message']}}</h1>
+   {% endif %}
+{% endif %}
+{% include "footer.html" %}

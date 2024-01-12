@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    </style>
+
+<body>
+  <main id="main-holder">
+
+<h1 align="center">Response of uploaded file</h1>
+<form name="form" action = "" method = "POST" enctype = "multipart/form-data">
+    <table>
+        {% for item in imagePath %}
+             <input type="hidden" name="item[]" value="{{ item }}">
+         {% endfor %}
+        {% for item in imagePath %}
+        <tr>
+            <td>{{item}}</td>
+            <td><img src="{{url_for('static', filename=item['image'])}}" align="middle" width="50%" height="40%" /></td>
+            <td><select name="cars" id="cars">
+                <option name="Imaginary" value="Imaginary">Imaginary</option>
+                {% for itemx in item['columns'] %}
+                    <option name="{{itemx}}" value="{{itemx}}">{{itemx}}</option>
+                {% endfor %}
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <button onclick="sendSelectedValues()">Update Chart</button>
+
+    <script>
+        function sendSelectedValues() {
+            var selectedValues = [];
+
+            // Iterate over each select element with class 'mySelect'
+            $('.cars').each(function() {
+                var selectedValue = $(this).val();
+                selectedValues.push(selectedValue);
+            });
+
+            // Send an asynchronous request to your Flask route
+            $.ajax({
+                type: 'POST',
+                url: '/process_selected_values',
+                data: { evalued: selectedValues },
+                success: function(response) {
+                    alert(response);  // You can handle the response as needed
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
+</form>
+{% include "footer.html" %}

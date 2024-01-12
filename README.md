@@ -1,1 +1,1 @@
-# geospatial_map_viewer
+# geospatial_map_view
